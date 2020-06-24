@@ -41,6 +41,23 @@ class UserAPI extends DataSource {
     })
     return user
   }
+
+  findUserByEmail({ email, id }) {
+    return this.prisma.user.findOne({
+      where: {
+        email,
+        id,
+      },
+    })
+  }
+
+  findUserById({ id }) {
+    return this.prisma.user.findOne({
+      where: {
+        id,
+      },
+    })
+  }
 }
 
 module.exports = UserAPI

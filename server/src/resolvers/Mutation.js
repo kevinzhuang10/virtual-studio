@@ -16,7 +16,7 @@ async function signUp(parent, args, { dataSources }, info) {
 }
 
 async function signIn(parent, args, { dataSources }) {
-  const { password, ...user } = await dataSources.userAPI.findUser({
+  const { password, ...user } = await dataSources.userAPI.findUserByEmail({
     email: args.email,
   })
 
@@ -39,11 +39,10 @@ async function signIn(parent, args, { dataSources }) {
 
 async function createEvent(parent, { title }, context, info) {
   const userId = getUserId(context)
-  console.log('userId yo', userId)
   const event = await context.dataSources.eventAPI.createEvent(title, userId)
   return {
     success: !!event,
-    message: 'it worked?',
+    message: `event created with event id: ${event.id}`,
     data: event,
   }
 }
