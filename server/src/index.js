@@ -1,18 +1,21 @@
 const { ApolloServer } = require('apollo-server')
 const typeDefs = require('./schema')
-const { createStore } = require('./utils')
+const resolvers = require('./resolvers')
+const { PrismaClient } = require('@prisma/client')
 
 const UserAPI = require('./datasources/user')
 const EventAPI = require('./datasources/event')
 
-const store = createStore()
+const prisma = new PrismaClient()
 
 const server = new ApolloServer({
   typeDefs,
+  resolvers,
   dataSources: () => ({
-    userAPI: new UserAPI({ store }),
-    eventAPI: new EventAPI({ store }),
+    userAPI: new UserAPI({ prisma }),
+    eventAPI: new EventAPI({ prisma }),
   }),
+  context: context => context
 })
 
 server.listen().then(({ url }) => {

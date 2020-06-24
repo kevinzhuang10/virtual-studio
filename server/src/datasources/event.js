@@ -1,9 +1,9 @@
 const { DataSource } = require('apollo-datasource')
 
 class UserAPI extends DataSource {
-  constructor({ store }) {
+  constructor({ prisma }) {
     super()
-    this.store = store
+    this.prisma = prisma
   }
 
   /**
@@ -14,6 +14,28 @@ class UserAPI extends DataSource {
    */
   initialize(config) {
     this.context = config.context
+  }
+
+  getAllEvents() {
+    return this.prisma.event.findMany()
+  }
+
+  async createEvent(title, userId) {
+    const event = await this.prisma.event.create({
+      data: {
+        title,
+        createdBy: { connect: { id: userId } },
+      },
+    })
+    return event
+  }
+
+  getEventById(eventId) {
+    return this.prisma.event.findOne({
+      where: {
+        id: eventId,
+      },
+    })
   }
 }
 

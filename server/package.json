@@ -7,11 +7,17 @@
     "start": "nodemon src/index.js"
   },
   "dependencies": {
+    "@prisma/client": "^2.1.0",
     "apollo-datasource": "^0.7.1",
     "apollo-server": "^2.15.0",
+    "bcryptjs": "^2.4.3",
     "graphql": "^15.1.0",
+    "isemail": "^3.2.0",
+    "jsonwebtoken": "^8.5.1",
     "sequelize": "^5.21.13",
     "sqlite3": "^4.2.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@prisma/cli": "^2.1.0"
+  }
 }

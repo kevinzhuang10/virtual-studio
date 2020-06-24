@@ -2,14 +2,20 @@ const { gql } = require('apollo-server')
 
 const typeDefs = gql`
   type Query {
-    events(userId: ID!): [Event!]!
-    event(id: ID!): Event
-    me: User
+    allEvents: [Event!]!
   }
 
   type Mutation {
-    createEvent(title: String!, description: String!, startTime: String!, endTime: String!, priceType: PriceType!, price: Float): EventUpdateResponse!
-    updateEvent(title: String!, description: String!, startTime: String!, endTime: String!, priceType: PriceType!, price: Float): EventUpdateResponse!
+    signUp(email: String!, password: String!, name: String!): AuthResponse
+    signIn(email: String!, password: String!): AuthResponse
+    # signOut(email: String!): AuthResponse
+    createEvent(title: String!): EventUpdateResponse!
+    updateEvent(title: String!): EventUpdateResponse!
+  }
+
+  type AuthResponse {
+    token: String
+    user: User
   }
 
   type User {
@@ -22,11 +28,7 @@ const typeDefs = gql`
   type Event {
     id: ID!
     title: String!
-    description: String!
-    startTime: String!
-    endTime: String!
-    priceType: PriceType!
-    price: Float
+    createdBy: User!
   }
 
   enum PriceType {

@@ -2,9 +2,9 @@ const { DataSource } = require('apollo-datasource')
 const isEmail = require('isemail')
 
 class UserAPI extends DataSource {
-  constructor({ store }) {
+  constructor({ prisma }) {
     super()
-    this.store = store
+    this.prisma = prisma
   }
 
   /**
@@ -29,6 +29,17 @@ class UserAPI extends DataSource {
 
     const users = await this.store.users.findOrCreate({ where: { email } })
     return users && users[0] ? users[0] : null
+  }
+
+  async createUser({ email, password, name }) {
+    const user = await this.prisma.user.create({
+      data: {
+        email,
+        password,
+        name,
+      },
+    })
+    return user
   }
 }
 
