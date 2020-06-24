@@ -5,8 +5,23 @@ const { PrismaClient } = require('@prisma/client')
 
 const UserAPI = require('./datasources/user')
 const EventAPI = require('./datasources/event')
+const ZoomAPI = require('./datasources/zoom')
+const { getUserId } = require('./utils/auth')
 
 const prisma = new PrismaClient()
+
+const context = async ({ req }) => {
+  const userId = getUserId(req)
+  const user = await prisma.user.findOne({
+    where: {
+      id: userId,
+    },
+  })
+
+  return {
+    user,
+  }
+}
 
 const server = new ApolloServer({
   typeDefs,
@@ -14,8 +29,9 @@ const server = new ApolloServer({
   dataSources: () => ({
     userAPI: new UserAPI({ prisma }),
     eventAPI: new EventAPI({ prisma }),
+    zoomAPI: new ZoomAPI(),
   }),
-  context: context => context
+  context,
 })
 
 server.listen().then(({ url }) => {

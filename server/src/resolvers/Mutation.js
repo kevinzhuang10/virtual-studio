@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const { APP_SECRET, getUserId } = require('../utils/auth')
+const { APP_SECRET, checkAuthentication } = require('../utils/auth')
 
 async function signUp(parent, args, { dataSources }, info) {
   const hashedPassword = await bcrypt.hash(args.password, 10)
@@ -38,8 +38,27 @@ async function signIn(parent, args, { dataSources }) {
 }
 
 async function createEvent(parent, { title }, context, info) {
-  const userId = getUserId(context)
-  const event = await context.dataSources.eventAPI.createEvent(title, userId)
+  checkAuthentication(context)
+  // create zoom event
+  const createdZoomMeeting = await context.dataSources.zoomAPI.createMeeting({
+    topic: title,
+    startTime: '2020-6-25T18:00:00Z',
+  })
+
+  if (!createdZoomMeeting) {
+    throw new Error('Failed to create zoom meeting')
+  }
+
+  const { start_url, join_url } = createdZoomMeeting
+
+  // create new event with zoom meeting info
+  const event = await context.dataSources.eventAPI.createEvent({
+    title,
+    user: context.user,
+    startUrl: start_url,
+    joinUrl: join_url,
+  })
+
   return {
     success: !!event,
     message: `event created with event id: ${event.id}`,
