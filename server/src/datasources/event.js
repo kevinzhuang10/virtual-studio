@@ -17,8 +17,14 @@ class EventAPI extends DataSource {
     this.context = config.context
   }
 
-  getAllEvents() {
-    return this.prisma.event.findMany()
+  getAllEvents({ userId }) {
+    return this.prisma.event.findMany({
+      where: {
+        createdBy: {
+          id: userId,
+        },
+      },
+    })
   }
 
   async createEvent({ title, user, startUrl, joinUrl }) {

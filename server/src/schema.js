@@ -2,7 +2,7 @@ const { gql } = require('apollo-server')
 
 const typeDefs = gql`
   type Query {
-    allEvents: [Event!]!
+    events(userId: ID!): [Event!]!
   }
 
   type Mutation {
@@ -29,6 +29,8 @@ const typeDefs = gql`
     id: ID!
     title: String!
     createdBy: User!
+    startUrl: String!
+    joinUrl: String!
   }
 
   enum PriceType {
