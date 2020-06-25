@@ -4,8 +4,7 @@ class ZoomAPI extends RESTDataSource {
   constructor() {
     super()
     this.baseURL = 'https://api.zoom.us/v2/'
-    this.jwtToken =
-      'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOm51bGwsImlzcyI6Img2Unp2RVkzUzRTdW44WWwtWWY5cnciLCJleHAiOjE1OTM2MzgxMzQsImlhdCI6MTU5MzAzMzMzNH0.wlnICfCW4aQUhTerbhp5VZl5MfPPknyCgrbp9U7YuW0'
+    this.jwtToken = process.env.ZOOM_JWT_TOKEN
     this.zoomUserId = 'kevinzhuang10@gmail.com'
   }
 
