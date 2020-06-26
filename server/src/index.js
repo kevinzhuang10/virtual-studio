@@ -27,6 +27,10 @@ const context = async ({ req }) => {
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  engine: {
+    reportSchema: true,
+    graphVariant: 'current',
+  },
   dataSources: () => ({
     userAPI: new UserAPI({ prisma }),
     eventAPI: new EventAPI({ prisma }),
