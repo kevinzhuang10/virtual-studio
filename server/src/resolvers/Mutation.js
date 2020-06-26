@@ -66,8 +66,30 @@ async function createEvent(parent, { title }, context, info) {
   }
 }
 
+async function registerEvent(parent, { eventId }, context, info) {
+  checkAuthentication(context)
+  eventId = parseInt(eventId, 10)
+
+  const event = await context.dataSources.eventAPI.findEventById(eventId)
+  if (!event) {
+    throw new Error('Invalid event ID')
+  }
+
+  const registeredEvent = await context.dataSources.eventAPI.registerEvent({
+    eventId,
+    user: context.user,
+  })
+
+  return {
+    success: !!registeredEvent,
+    message: `user ${context.user.id} registered to event id: ${registeredEvent.id}`,
+    data: registeredEvent,
+  }
+}
+
 module.exports = {
   signUp,
   signIn,
   createEvent,
+  registerEvent,
 }

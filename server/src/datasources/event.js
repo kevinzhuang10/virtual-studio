@@ -20,7 +20,7 @@ class EventAPI extends DataSource {
   getAllEvents({ userId }) {
     return this.prisma.event.findMany({
       where: {
-        createdBy: {
+        host: {
           id: userId,
         },
       },
@@ -35,14 +35,27 @@ class EventAPI extends DataSource {
         joinUrl,
         startTime: new Date(),
         duration: 60,
-        createdBy: { connect: { id: user.id } },
+        host: { connect: { id: user.id } },
       },
     })
 
     return event
   }
 
-  getEventById(eventId) {
+  async registerEvent({ user, eventId }) {
+    const event = await this.prisma.event.update({
+      where: { id: eventId },
+      data: {
+        participants: {
+          connect: [{ id: user.id }],
+        },
+      },
+    })
+
+    return event
+  }
+
+  findEventById(eventId) {
     return this.prisma.event.findOne({
       where: {
         id: eventId,

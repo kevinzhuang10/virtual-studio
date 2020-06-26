@@ -31,12 +31,13 @@ class UserAPI extends DataSource {
     return users && users[0] ? users[0] : null
   }
 
-  async createUser({ email, password, name }) {
+  async createUser({ email, password, name, role }) {
     const user = await this.prisma.user.create({
       data: {
         email,
         password,
         name,
+        role,
       },
     })
     return user

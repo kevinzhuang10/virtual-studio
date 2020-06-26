@@ -1,7 +1,12 @@
-function events(parent, args, { dataSources }) {
-  return dataSources.userAPI.findUserById({ id: parent.id }).createdEvents()
+function hostEvents(parent, args, { dataSources }) {
+  return dataSources.userAPI.findUserById({ id: parent.id }).hostEvents()
+}
+
+function participantEvents(parent, args, { dataSources }) {
+  return dataSources.userAPI.findUserById({ id: parent.id }).participantEvents()
 }
 
 module.exports = {
-  events,
+  hostEvents,
+  participantEvents
 }

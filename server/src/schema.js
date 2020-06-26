@@ -2,15 +2,27 @@ const { gql } = require('apollo-server')
 
 const typeDefs = gql`
   type Query {
-    events(userId: ID!): [Event!]!
+    getHostEvents(userId: ID!): [Event!]!
+    getEventById(eventId: ID!): Event
   }
 
   type Mutation {
-    signUp(email: String!, password: String!, name: String!): AuthResponse
+    signUp(
+      email: String!
+      password: String!
+      name: String!
+      role: UserRole!
+    ): AuthResponse
     signIn(email: String!, password: String!): AuthResponse
     # signOut(email: String!): AuthResponse
     createEvent(title: String!): EventUpdateResponse!
     updateEvent(title: String!): EventUpdateResponse!
+    registerEvent(eventId: ID!): EventRegistrationResponse!
+  }
+
+  enum UserRole {
+    HOST
+    PARTICIPANT
   }
 
   type AuthResponse {
@@ -22,13 +34,16 @@ const typeDefs = gql`
     id: ID!
     email: String!
     name: String!
-    events: [Event!]!
+    role: UserRole!
+    hostEvents: [Event!]!
+    participantEvents: [Event!]!
   }
 
   type Event {
     id: ID!
     title: String!
-    createdBy: User!
+    host: User!
+    participants: [User!]!
     startUrl: String!
     joinUrl: String!
   }
@@ -40,6 +55,12 @@ const typeDefs = gql`
   }
 
   type EventUpdateResponse {
+    success: Boolean!
+    message: String
+    data: Event!
+  }
+
+  type EventRegistrationResponse {
     success: Boolean!
     message: String
     data: Event!
