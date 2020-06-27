@@ -12,7 +12,12 @@ const { getUserId } = require('./utils/auth')
 const prisma = new PrismaClient()
 
 const context = async ({ req }) => {
+  // attempt to extract user info from req
   const userId = getUserId(req)
+  if (!userId) {
+    return
+  }
+
   const user = await prisma.user.findOne({
     where: {
       id: userId,

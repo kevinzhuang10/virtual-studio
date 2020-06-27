@@ -11,7 +11,7 @@ function getUserId(req) {
     }
   }
 
-  throw new Error('Not authenticated')
+  return null
 }
 
 function checkAuthentication(context) {
@@ -25,5 +25,5 @@ function checkAuthentication(context) {
 module.exports = {
   APP_SECRET,
   getUserId,
-  checkAuthentication
+  checkAuthentication,
 }
