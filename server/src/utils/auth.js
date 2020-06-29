@@ -1,10 +1,11 @@
 const jwt = require('jsonwebtoken')
 const APP_SECRET = process.env.APP_SECRET
+const AUTHORIZATION_PREFIX = 'Bearer '
 
 function getUserId(req) {
   const Authorization = req.get('Authorization')
-  if (Authorization) {
-    const token = Authorization.replace('Bearer ', '')
+  if (Authorization && isValidAuthorizationFormat(Authorization)) {
+    const token = Authorization.replace(AUTHORIZATION_PREFIX, '')
     const { userId } = jwt.verify(token, APP_SECRET)
     if (userId) {
       return userId
@@ -20,6 +21,10 @@ function checkAuthentication(context) {
   }
 
   throw new Error('Not authenticated')
+}
+
+function isValidAuthorizationFormat(authorization) {
+  return authorization.startsWith(AUTHORIZATION_PREFIX)
 }
 
 module.exports = {
