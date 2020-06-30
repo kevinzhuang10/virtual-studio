@@ -4,6 +4,7 @@ const typeDefs = gql`
   type Query {
     getHostEvents(userId: ID!): [Event!]!
     getEventById(eventId: ID!): Event
+    me: User
   }
 
   type Mutation {
@@ -11,7 +12,7 @@ const typeDefs = gql`
       email: String!
       password: String!
       name: String!
-      role: UserRole!
+      role: UserRole
     ): AuthResponse
     signIn(email: String!, password: String!): AuthResponse
     # signOut(email: String!): AuthResponse

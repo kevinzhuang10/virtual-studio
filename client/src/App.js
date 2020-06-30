@@ -3,19 +3,35 @@ import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 import './App.css'
 import EventListPage from './pages/EventListPage'
 import EventDetailPage from './pages/EventDetailPage'
+import SignInPage from './pages/SignInPage'
+import SignUpPage from './pages/SignUpPage'
+import NavBar from './components/NavBar'
+import gql from 'graphql-tag'
+import { useQuery } from '@apollo/react-hooks'
+
+const GET_CURRENT_USER = gql`
+  query currentUser {
+    me {
+      id
+    }
+  }
+`
 
 function App() {
+  const { data, loading, error } = useQuery(GET_CURRENT_USER, {
+    fetchPolicy: 'network-only',
+  })
   return (
     <Router>
       <Fragment>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Events</Link>
-            </li>
-          </ul>
-        </nav>
+        <NavBar />
         <Switch>
+          <Route path="/signup">
+            <SignUpPage />
+          </Route>
+          <Route path="/signin">
+            <SignInPage />
+          </Route>
           <Route path="/event/:eventId">
             <EventDetailPage />
           </Route>
