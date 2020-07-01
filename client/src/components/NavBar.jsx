@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+import styled from 'styled-components'
 import { makeStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
@@ -61,16 +62,16 @@ const NavBar = () => {
             </Button>
           ) : (
             <Fragment>
-              <Link to="/signin">
-                <Button className={classes.authButtion} color="inherit">
+              <StyledLink to="/signin">
+                <StyledButton className={classes.authButtion}>
                   Sign In
-                </Button>
-              </Link>
-              <Link to="/signup">
-                <Button className={classes.authButtion} color="inherit">
+                </StyledButton>
+              </StyledLink>
+              <StyledLink to="/signup">
+                <StyledButton className={classes.authButtion}>
                   Sign Up
-                </Button>
-              </Link>
+                </StyledButton>
+              </StyledLink>
             </Fragment>
           )}
         </Toolbar>
@@ -78,5 +79,13 @@ const NavBar = () => {
     </div>
   )
 }
+
+const StyledLink = styled(Link)`
+  text-decoration: none;
+`
+
+const StyledButton = styled(Button)`
+  color: white;
+`
 
 export default NavBar

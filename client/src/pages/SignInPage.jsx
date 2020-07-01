@@ -75,7 +75,7 @@ const SignInPage = () => {
         </StyledSubContainer>
         <StyledSubContainer>
           <SignInButton variant="contained" type="submit">
-            Sign Up
+            Sign In
           </SignInButton>
           <StyledButton onClick={() => history.push('/signup')}>
             Need to create an account?
