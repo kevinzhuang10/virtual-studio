@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { TextField, Button } from '@material-ui/core'
+import styled from 'styled-components'
+import { TextField, Button, Container } from '@material-ui/core'
 import { useApolloClient, useMutation, useQuery } from '@apollo/react-hooks'
 import { useHistory } from 'react-router-dom'
 import { AUTH_TOKEN } from '../constants'
@@ -52,20 +53,18 @@ const SignInPage = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h4>Sign In</h4>
-      <div>
-        <div>
-          <TextField
+    <StyledContainer maxWidth="sm">
+      <form onSubmit={handleSubmit}>
+        <Label>Sign In</Label>
+        <StyledSubContainer>
+          <StyledTextField
             required
             id="email"
             label="Email"
             onChange={(e) => setEmail(e.target.value)}
             value={email}
           />
-        </div>
-        <div>
-          <TextField
+          <StyledTextField
             required
             id="password"
             label="Password"
@@ -73,20 +72,52 @@ const SignInPage = () => {
             onChange={(e) => setPassword(e.target.value)}
             value={password}
           />
-        </div>
-      </div>
-      <div>
-        <Button variant="contained" type="submit">
-          Sign Up
-        </Button>
-      </div>
-      <div>
-        <Button onClick={() => history.push('/signup')}>
-          Need to create an account?
-        </Button>
-      </div>
-    </form>
+        </StyledSubContainer>
+        <StyledSubContainer>
+          <SignInButton variant="contained" type="submit">
+            Sign Up
+          </SignInButton>
+          <StyledButton onClick={() => history.push('/signup')}>
+            Need to create an account?
+          </StyledButton>
+        </StyledSubContainer>
+      </form>
+    </StyledContainer>
   )
 }
+
+const Label = styled.h4`
+  text-align: center;
+`
+
+const StyledContainer = styled(Container)`
+  display: flex;
+  justify-content: center;
+  margin-top: 60px;
+`
+
+const StyledSubContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  justify-content: center;
+  align-items: center;
+`
+
+const StyledButtonContainer = styled.div``
+
+const StyledTextField = styled(TextField)`
+  margin: 10px;
+  width: 250px;
+`
+
+const StyledButton = styled(Button)`
+  margin: 10px;
+`
+
+const SignInButton = styled(Button)`
+  margin: 10px;
+  max-width: 120px;
+`
 
 export default SignInPage
