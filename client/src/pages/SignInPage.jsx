@@ -104,8 +104,6 @@ const StyledSubContainer = styled.div`
   align-items: center;
 `
 
-const StyledButtonContainer = styled.div``
-
 const StyledTextField = styled(TextField)`
   margin: 10px;
   width: 250px;
