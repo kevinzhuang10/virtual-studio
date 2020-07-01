@@ -63,12 +63,12 @@ const NavBar = () => {
             <Fragment>
               <Link to="/signin">
                 <Button className={classes.authButtion} color="inherit">
-                  Log in
+                  Sign In
                 </Button>
               </Link>
               <Link to="/signup">
                 <Button className={classes.authButtion} color="inherit">
-                  Sign up
+                  Sign Up
                 </Button>
               </Link>
             </Fragment>

@@ -16,13 +16,15 @@ async function signUp(parent, args, { dataSources }, info) {
 }
 
 async function signIn(parent, args, { dataSources }) {
-  const { password, ...user } = await dataSources.userAPI.findUserByEmail({
+  const user = await dataSources.userAPI.findUserByEmail({
     email: args.email,
   })
 
   if (!user) {
     throw new Error('No such user found')
   }
+
+  const { password } = user
 
   const valid = await bcrypt.compare(args.password, password)
   if (!valid) {

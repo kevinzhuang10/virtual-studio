@@ -4,6 +4,7 @@ import { useApolloClient, useMutation, useQuery } from '@apollo/react-hooks'
 import { useHistory } from 'react-router-dom'
 import { AUTH_TOKEN } from '../constants'
 import gql from 'graphql-tag'
+import { CircularProgress } from '@material-ui/core'
 
 export const SIGN_UP_MUTATION = gql`
   mutation signUp($email: String!, $password: String!, $name: String!) {
@@ -18,27 +19,11 @@ export const SIGN_UP_MUTATION = gql`
   }
 `
 
-// const IS_AUTHENTICATED_QUERY = gql`
-//   query isAuthenticated {
-//     me @client {
-//       id
-//       name
-//     }
-//   }
-// `
-
 const SignUpPage = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [name, setName] = useState('')
   let history = useHistory()
-
-  // // redirect to home page if authenticated
-  // // debugger
-  // const { data: authData } = useQuery(IS_AUTHENTICATED_QUERY)
-  // if (authData && authData.me) {
-  //   history.push('/')
-  // }
 
   const [signUp, { data, loading, error }] = useMutation(SIGN_UP_MUTATION, {
     onCompleted({ signUp }) {
@@ -46,13 +31,16 @@ const SignUpPage = () => {
       history.push('/')
     },
     update(cache, mutationResult) {
-      // debugger
-      // if (mutationResult && mutationResult.data && mutationResult.data.signUp)
-      //   cache.writeData({ data: { me: { id: 123 } } })
-      // cache.writeData({ data: { me: { id: 123 } } })
       cache.writeData({ data: { me: mutationResult.data.signUp.user } })
     },
   })
+
+  if (loading) {
+    return <CircularProgress />
+  }
+  if (error) {
+    return <p>error occured</p>
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -67,37 +55,47 @@ const SignUpPage = () => {
 
   return (
     <form onSubmit={handleSubmit}>
+      <h4>Sign Up</h4>
       <div>
-        <TextField
-          required
-          id="email"
-          label="Email"
-          onChange={(e) => setEmail(e.target.value)}
-          value={email}
-        />
+        <div>
+          <TextField
+            required
+            id="name"
+            label="Name"
+            onChange={(e) => setName(e.target.value)}
+            value={name}
+          />
+        </div>
+        <div>
+          <TextField
+            required
+            id="email"
+            label="Email"
+            onChange={(e) => setEmail(e.target.value)}
+            value={email}
+          />
+        </div>
+        <div>
+          <TextField
+            required
+            id="password"
+            label="Password"
+            type="password"
+            onChange={(e) => setPassword(e.target.value)}
+            value={password}
+          />
+        </div>
       </div>
       <div>
-        <TextField
-          required
-          id="password"
-          label="Password"
-          type="password"
-          onChange={(e) => setPassword(e.target.value)}
-          value={password}
-        />
+        <Button variant="contained" type="submit">
+          Sign Up
+        </Button>
       </div>
       <div>
-        <TextField
-          required
-          id="name"
-          label="Name"
-          onChange={(e) => setName(e.target.value)}
-          value={name}
-        />
+        <Button onClick={() => history.push('/signin')}>
+          Already have an account?
+        </Button>
       </div>
-      <Button variant="contained" type="submit">
-        Sign Up
-      </Button>
     </form>
   )
 }

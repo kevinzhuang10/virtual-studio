@@ -32,7 +32,6 @@ const client = new ApolloClient({
 // initialized local cache
 cache.writeData({
   data: {
-    isAuthenticated: !!localStorage.getItem(AUTH_TOKEN),
     me: null,
   },
 })
