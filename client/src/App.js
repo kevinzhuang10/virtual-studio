@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 import './App.css'
 import EventListPage from './pages/EventListPage'
 import EventDetailPage from './pages/EventDetailPage'
+import UpdateEventPage from './pages/UpdateEventPage'
 import SignUpPage from './pages/SignUpPage'
 import SignInPage from './pages/SignInPage'
 import NavBar from './components/NavBar'
@@ -26,6 +27,9 @@ function App() {
       <Fragment>
         <NavBar />
         <Switch>
+          <Route path="/event/new">
+            <UpdateEventPage />
+          </Route>
           <Route path="/signin">
             <SignInPage />
           </Route>
