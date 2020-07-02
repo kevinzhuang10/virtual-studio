@@ -59,7 +59,7 @@ const UpdateEventPage = () => {
     {
       onCompleted({ createEvent }) {
         console.log('event created', createEvent)
-        history.push('/')
+        history.push('/events')
       },
     }
   )

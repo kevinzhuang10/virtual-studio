@@ -36,7 +36,6 @@ const GET_CURRENT_USER = gql`
   }
 `
 
-
 // maybe pass in auth data from app
 const NavBar = () => {
   const client = useApolloClient()

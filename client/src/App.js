@@ -32,7 +32,7 @@ function App() {
       <Fragment>
         <NavBar />
         <Switch>
-          <Route path="/event/new">
+          <Route path="/events/new">
             <UpdateEventPage />
           </Route>
           <Route path="/signin">
@@ -41,11 +41,14 @@ function App() {
           <Route path="/signup">
             <SignUpPage />
           </Route>
-          <Route path="/event/:eventId">
+          <Route path="/events/:eventId">
             <EventDetailPage />
           </Route>
-          <Route path="/">
+          <Route path="/events">
             <EventListPage />
+          </Route>
+          <Route path="/">
+            <div>Home Page</div>
           </Route>
         </Switch>
       </Fragment>
