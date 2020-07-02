@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
-import { useQuery, useMutation } from '@apollo/react-hooks'
+import { useQuery, useApolloClient } from '@apollo/react-hooks'
 import { Link } from 'react-router-dom'
 import gql from 'graphql-tag'
 import { AUTH_TOKEN } from '../constants'
@@ -36,11 +36,14 @@ const GET_CURRENT_USER = gql`
   }
 `
 
+
+// maybe pass in auth data from app
 const NavBar = () => {
+  const client = useApolloClient()
   const classes = useStyles()
   let history = useHistory()
 
-  const { data, client } = useQuery(GET_CURRENT_USER)
+  const { data } = useQuery(GET_CURRENT_USER)
 
   return (
     <div className={classes.root}>

@@ -39,11 +39,15 @@ const EventListPage = () => {
     variables: {
       hostId: '11',
     },
+    fetchPolicy: 'network-only',
   })
   let history = useHistory()
 
   if (loading) return <p>LOADING</p>
-  if (error) return <p>ERROR</p>
+  if (error) {
+    console.log('here is the err', error)
+    return <p>ERROR</p>
+  }
   if (!data) return <p>Not found</p>
 
   return (

@@ -21,6 +21,7 @@ export const SIGN_UP_MUTATION = gql`
 `
 
 const SignUpPage = () => {
+  const client = useApolloClient()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [name, setName] = useState('')
@@ -29,10 +30,8 @@ const SignUpPage = () => {
   const [signUp, { data, loading, error }] = useMutation(SIGN_UP_MUTATION, {
     onCompleted({ signUp }) {
       localStorage.setItem(AUTH_TOKEN, signUp.token)
+      client.writeData({ data: { me: signUp.user } })
       history.push('/')
-    },
-    update(cache, mutationResult) {
-      cache.writeData({ data: { me: mutationResult.data.signUp.user } })
     },
   })
 

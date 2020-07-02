@@ -13,8 +13,7 @@ class ZoomAPI extends RESTDataSource {
   }
 
   async createMeeting({ topic, startTime }) {
-    const self = this
-    const response = await self.post(`users/${this.zoomUserId}/meetings`, {
+    const response = await this.post(`users/${this.zoomUserId}/meetings`, {
       topic,
       type: 2,
       start_time: startTime,

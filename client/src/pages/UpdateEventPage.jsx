@@ -6,6 +6,9 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import FormControl from '@material-ui/core/FormControl'
 import FormLabel from '@material-ui/core/FormLabel'
 import MenuItem from '@material-ui/core/MenuItem'
+import gql from 'graphql-tag'
+import { useMutation } from '@apollo/react-hooks'
+import { useHistory } from 'react-router-dom'
 
 const durations = [
   {
@@ -25,22 +28,50 @@ const durations = [
     label: '1 hr',
   },
 ]
+// , $startTime: String!, $endTime: String!, $description: String!
+export const CREATE_EVENT_MUTATION = gql`
+  mutation createEvent($title: String!) {
+    createEvent(title: $title) {
+      success
+      message
+      data {
+        id
+        title
+        host {
+          id
+          name
+        }
+      }
+    }
+  }
+`
 
 const UpdateEventPage = () => {
+  let history = useHistory()
   const [title, setTitle] = useState('')
   // get local time from browser, use as init time
   const [startTime, setStartTime] = useState('2020-07-01T09:00')
   const [duration, setDuration] = useState(60)
   const [description, setDescription] = useState('')
   const [pricingConfig, setPricingConfig] = useState('fixed')
-
-  const handleChange = (event) => {
-    setDuration(event.target.value)
-  }
+  const [createEvent, { data, loading, error }] = useMutation(
+    CREATE_EVENT_MUTATION,
+    {
+      onCompleted({ createEvent }) {
+        console.log('event created', createEvent)
+        history.push('/')
+      },
+    }
+  )
 
   const handleSubmit = (e) => {
     e.preventDefault()
     console.log('submit to create!')
+    createEvent({
+      variables: {
+        title,
+      },
+    })
   }
 
   return (
@@ -107,7 +138,7 @@ const UpdateEventPage = () => {
           </FormControl>
         </div>
         <div>
-          <Button>Create</Button>
+          <Button type="submit">Create</Button>
         </div>
       </form>
     </Container>

@@ -22,6 +22,11 @@ function App() {
   const { data, loading, error } = useQuery(GET_CURRENT_USER, {
     fetchPolicy: 'network-only',
   })
+
+  if (loading) {
+    return <div>loading</div>
+  }
+
   return (
     <Router>
       <Fragment>
