@@ -12,11 +12,13 @@ class ZoomAPI extends RESTDataSource {
     request.headers.set('Authorization', `Bearer ${this.jwtToken}`)
   }
 
-  async createMeeting({ topic, startTime }) {
+  async createMeeting({ topic, startTime, duration, description }) {
     const response = await this.post(`users/${this.zoomUserId}/meetings`, {
       topic,
       type: 2,
       start_time: startTime,
+      duration,
+      agenda: description,
     })
     return response
   }

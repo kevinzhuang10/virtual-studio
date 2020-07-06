@@ -15,8 +15,12 @@ const typeDefs = gql`
       role: UserRole
     ): AuthResponse
     signIn(email: String!, password: String!): AuthResponse
-    # signOut(email: String!): AuthResponse
-    createEvent(title: String!): EventUpdateResponse!
+    createEvent(
+      title: String!
+      startTime: String!
+      duration: Int!
+      description: String!
+    ): EventUpdateResponse!
     updateEvent(title: String!): EventUpdateResponse!
     registerEvent(eventId: ID!): EventRegistrationResponse!
   }
@@ -47,6 +51,9 @@ const typeDefs = gql`
     participants: [User!]!
     startUrl: String!
     joinUrl: String!
+    startTime: String!
+    duration: Int!
+    description: String!
   }
 
   enum PriceType {

@@ -39,12 +39,19 @@ async function signIn(parent, args, { dataSources }) {
   }
 }
 
-async function createEvent(parent, { title }, context, info) {
+async function createEvent(
+  parent,
+  { title, startTime, duration, description },
+  context,
+  info
+) {
   checkAuthentication(context)
   // create zoom event
   const createdZoomMeeting = await context.dataSources.zoomAPI.createMeeting({
     topic: title,
-    startTime: '2020-6-25T18:00:00Z',
+    startTime,
+    duration,
+    description,
   })
 
   if (!createdZoomMeeting) {
@@ -59,6 +66,9 @@ async function createEvent(parent, { title }, context, info) {
     user: context.user,
     startUrl: start_url,
     joinUrl: join_url,
+    startTime,
+    duration,
+    description,
   })
 
   return {

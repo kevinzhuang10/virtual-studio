@@ -9,42 +9,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 import gql from 'graphql-tag'
 import { useMutation } from '@apollo/react-hooks'
 import { useHistory } from 'react-router-dom'
-
-const durations = [
-  {
-    value: 15,
-    label: '15 mins',
-  },
-  {
-    value: 30,
-    label: '30 mins',
-  },
-  {
-    value: 45,
-    label: '45 mins',
-  },
-  {
-    value: 60,
-    label: '1 hr',
-  },
-]
-// , $startTime: String!, $endTime: String!, $description: String!
-export const CREATE_EVENT_MUTATION = gql`
-  mutation createEvent($title: String!) {
-    createEvent(title: $title) {
-      success
-      message
-      data {
-        id
-        title
-        host {
-          id
-          name
-        }
-      }
-    }
-  }
-`
+import moment from 'moment'
 
 const UpdateEventPage = () => {
   let history = useHistory()
@@ -66,10 +31,15 @@ const UpdateEventPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log('submit to create!')
+    // debugger
+    const utcTime = moment(startTime).utc().format()
+    console.log('this is utc time', utcTime)
     createEvent({
       variables: {
         title,
+        startTime: utcTime,
+        duration,
+        description,
       },
     })
   }
@@ -144,5 +114,52 @@ const UpdateEventPage = () => {
     </Container>
   )
 }
+
+const durations = [
+  {
+    value: 15,
+    label: '15 mins',
+  },
+  {
+    value: 30,
+    label: '30 mins',
+  },
+  {
+    value: 45,
+    label: '45 mins',
+  },
+  {
+    value: 60,
+    label: '1 hr',
+  },
+]
+
+// ========== GraphQL Queries ==========
+export const CREATE_EVENT_MUTATION = gql`
+  mutation createEvent(
+    $title: String!
+    $startTime: String!
+    $duration: Int!
+    $description: String!
+  ) {
+    createEvent(
+      title: $title
+      startTime: $startTime
+      duration: $duration
+      description: $description
+    ) {
+      success
+      message
+      data {
+        id
+        title
+        host {
+          id
+          name
+        }
+      }
+    }
+  }
+`
 
 export default UpdateEventPage

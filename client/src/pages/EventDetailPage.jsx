@@ -1,22 +1,13 @@
 import React, { Fragment } from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
-
 import EventDetail from '../components/EventDetail'
-// import { ActionButton } from '../containers'
+import { useParams } from 'react-router-dom'
 
-export const GET_EVENT_DETAIL = gql`
-  query getEventById($eventId: ID!) {
-    getEventById(eventId: $eventId) {
-      id
-      title
-    }
-  }
-`
-
-const EventDetailPage = ({ eventId }) => {
+const EventDetailPage = (props) => {
+  let { eventId } = useParams()
   const { data, loading, error } = useQuery(GET_EVENT_DETAIL, {
-    variables: { eventId: '28' },
+    variables: { eventId },
   })
 
   if (loading) return <p>Loading</p>
@@ -26,9 +17,21 @@ const EventDetailPage = ({ eventId }) => {
   return (
     <Fragment>
       <EventDetail event={data.getEventById} />
-      {/* <ActionButton {...data.event} /> */}
     </Fragment>
   )
 }
+
+// ========== GraphQL Queries ==========
+export const GET_EVENT_DETAIL = gql`
+  query getEventById($eventId: ID!) {
+    getEventById(eventId: $eventId) {
+      id
+      title
+      startTime
+      duration
+      description
+    }
+  }
+`
 
 export default EventDetailPage

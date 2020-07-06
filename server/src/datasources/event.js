@@ -1,5 +1,5 @@
 const { DataSource } = require('apollo-datasource')
-const ZoomAPI = require('./zoom')
+const moment = require('moment')
 
 class EventAPI extends DataSource {
   constructor({ prisma }) {
@@ -27,15 +27,24 @@ class EventAPI extends DataSource {
     })
   }
 
-  async createEvent({ title, user, startUrl, joinUrl }) {
+  async createEvent({
+    title,
+    user,
+    startUrl,
+    joinUrl,
+    startTime,
+    duration,
+    description,
+  }) {
     const event = await this.prisma.event.create({
       data: {
         title,
         startUrl,
         joinUrl,
-        startTime: new Date(),
-        duration: 60,
+        startTime: moment(startTime).toDate(),
+        duration,
         host: { connect: { id: user.id } },
+        description,
       },
     })
 
