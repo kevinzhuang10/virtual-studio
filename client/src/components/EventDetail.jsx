@@ -1,13 +1,29 @@
 import React, { Fragment } from 'react'
+import { Button, Container } from '@material-ui/core'
+import DurationDisplay from './DurationDisplay'
+import DateTimeDisplay from './DateTimeDisplay'
+import DescriptionDisplay from './DescriptionDisplay'
+import PriceDisplay from './PriceDisplay'
 
 const EventDetail = ({ event }) => {
   return (
-    <Fragment>
-      <p>{event.title}</p>
-      <p>{event.startTime}</p>
-      <p>{event.duration}</p>
-      <p>{event.description}</p>
-    </Fragment>
+    <Container maxWidth="sm">
+      <div>
+        <h1>{event.title}</h1>
+        <Button>Start</Button>
+        <Button>Share</Button>
+        <Button>Edit</Button>
+      </div>
+      <div>
+        <div>
+          <DateTimeDisplay dateTime={event.startTime} />
+          <DurationDisplay duration={event.duration} />
+          <PriceDisplay />
+          <DescriptionDisplay description={event.description} />
+        </div>
+        <div>0 attendendees</div>
+      </div>
+    </Container>
   )
 }
 
