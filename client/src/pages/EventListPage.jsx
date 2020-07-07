@@ -44,6 +44,7 @@ const EventListPage = () => {
                 <TableCell>Class&nbsp;Name</TableCell>
                 <TableCell align="center">Start&nbsp;Time</TableCell>
                 <TableCell align="center">#&nbsp;of&nbsp;Attendees</TableCell>
+                <TableCell align="center">{''}</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -81,7 +82,7 @@ const GET_EVENTS = gql`
   }
 `
 
-// ===== Styled Components =====
+// ========== Styled Components ==========
 const StyledContainer = styled(Container)`
   display: flex;
   justify-content: center;
