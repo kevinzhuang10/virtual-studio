@@ -73,6 +73,7 @@ const GET_EVENTS = gql`
     getHostEvents(userId: $hostId) {
       id
       title
+      startTime
       participants {
         id
       }
